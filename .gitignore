@@ -1,0 +1,20 @@
+# Операционная система
+.DS_Store
+Thumbs.db
+
+# Системные папки
+node_modules/
+build/
+dist/
+.cache/
+
+# Логи
+*.log
+
+# Переменные окружения
+.env
+
+# Файлы IDE
+.vscode/
+.idea/
+*.iml
