@@ -14,7 +14,6 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Network Sql)
 
 add_executable(echo_server
   main_echo.cpp
-  functions_to_server.h
   functions_to_server.h functions_to_server.cpp
   mytcpserver.h mytcpserver.cpp
 )
@@ -27,6 +26,7 @@ target_link_libraries(echo_server
 add_executable(db_server
   main_db.cpp
   databasemanager.h databasemanager.cpp
+  dbtcpserver.h dbtcpserver.cpp
 )
 target_link_libraries(db_server
   Qt${QT_VERSION_MAJOR}::Core
