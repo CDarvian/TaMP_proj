@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     }
 
     // Запускаем DB-сервер
-    DbTcpServer server(33333);
+    DbTcpServer server(33334);
 
     return a.exec();
 }
