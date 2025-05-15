@@ -4,22 +4,24 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QList>
+#include <QHash>
 
 class MyTcpServer : public QObject {
     Q_OBJECT
 public:
-    explicit MyTcpServer(QObject *parent = nullptr);
+    explicit MyTcpServer(quint16 port = 33333, QObject *parent = nullptr);
     ~MyTcpServer();
 
 private slots:
-    void slotNewConnection();
-    void slotServerRead();
-    void slotClientDisconnected();
+    void onNewConnection();
+    void onReadyRead();
+    void onClientDisconnected();
 
 private:
-    QTcpServer *mTcpServer;
-    QTcpSocket *mTcpSocket;
-    QString mBuffer;  // аккумулируем входящие данные
+    QTcpServer *m_server;
+    QList<QTcpSocket*> m_clients;
+    QHash<QTcpSocket*, QByteArray> m_buffers;
 };
 
 #endif // MYTCPSERVER_H
