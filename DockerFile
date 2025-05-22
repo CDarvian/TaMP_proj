@@ -40,3 +40,9 @@ EXPOSE 33333
 
 # Указываем команду для запуска сервера при старте контейнера
 CMD ["./echoServer"]
+
+
+
+# Запуск сервера
+# Docker build -t echo-server .
+# docker run -it -p 33333:33333 echo-server
