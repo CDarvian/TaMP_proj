@@ -1,3 +1,4 @@
+// mytcpserver.h
 #ifndef MYTCPSERVER_H
 #define MYTCPSERVER_H
 
@@ -6,6 +7,7 @@
 #include <QTcpSocket>
 #include <QList>
 #include <QHash>
+#include "functions_to_server.h"
 
 class MyTcpServer : public QObject {
     Q_OBJECT
@@ -19,6 +21,8 @@ private slots:
     void onClientDisconnected();
 
 private:
+    void sendResponse(QTcpSocket *client, const QByteArray &response);
+
     QTcpServer *m_server;
     QList<QTcpSocket*> m_clients;
     QHash<QTcpSocket*, QByteArray> m_buffers;
