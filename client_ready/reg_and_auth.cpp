@@ -1,10 +1,12 @@
 #include "reg_and_auth.h"
 #include "ui_reg_and_auth.h"
 #include "client.h"
+#include "mainwindow.h"
 
 RegAndAuth::RegAndAuth(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::RegAndAuth)
+    ui(new Ui::RegAndAuth),
+    m_mainWindow(nullptr)
 {
     ui->setupUi(this);
 
@@ -21,6 +23,11 @@ RegAndAuth::RegAndAuth(QWidget *parent) :
 RegAndAuth::~RegAndAuth()
 {
     delete ui;
+}
+
+void RegAndAuth::setmainwindow(mainwindow *w)
+{
+    m_mainWindow = w;
 }
 
 // Показать форму регистрации, скрыть форму входа
@@ -96,9 +103,10 @@ void RegAndAuth::onServerResponse(const QString &response)
     // Ответы для авторизации
     else if (response.startsWith("AUTH_OK")) {
         ui->logResultLabel->setText(response);
-        // Успешный вход: можно перейти к окну задач (например, вызвать другой виджет)
-        // Тут просто можно скрыть всю форму или отображать сообщение:
-        // Например: ui->logResultLabel->setText(response + ". Выполнен вход.");
+        if (m_mainWindow) {
+            this->hide();
+            m_mainWindow->show();
+        }
     }
     else if (response.startsWith("AUTH_ERR")) {
         ui->logResultLabel->setText(response);
