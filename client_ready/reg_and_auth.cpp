@@ -1,4 +1,5 @@
 #include "reg_and_auth.h"
+#include "mainwindow.h"
 #include "ui_reg_and_auth.h"
 #include "client.h"
 
@@ -99,6 +100,10 @@ void RegAndAuth::onServerResponse(const QString &response)
         // Успешный вход: можно перейти к окну задач (например, вызвать другой виджет)
         // Тут просто можно скрыть всю форму или отображать сообщение:
         // Например: ui->logResultLabel->setText(response + ". Выполнен вход.");
+        delete ui;
+        hide();
+        m_mainWindow = new mainwindow;
+        m_mainWindow -> show();
     }
     else if (response.startsWith("AUTH_ERR")) {
         ui->logResultLabel->setText(response);
