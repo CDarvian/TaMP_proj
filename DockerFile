@@ -1,5 +1,5 @@
 # Используем официальный образ Ubuntu 18.04 как базовый
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 # Устанавливаем временную зону (Москва) чтобы избежать запросов при установке пакетов
 ENV TZ=Europe/Moscow
@@ -14,10 +14,12 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # После установки очищаем кеш apt для уменьшения размера образа
 RUN apt-get update && apt-get install -y \
     build-essential \
-    qt5-default \
-    qtcreator \
-    git \
     cmake \
+    git \
+    qt6-base-dev \
+    qt6-tools-dev-tools \
+    qt6-l10n-tools \
+    libqt6sql6-sqlite \
     && rm -rf /var/lib/apt/lists/*
 
 # Создаем рабочую директорию в /usr/src/app (стандартный путь для приложений)
@@ -27,19 +29,18 @@ WORKDIR /usr/src/app
 # Включая исходный код сервера и .pro файл
 COPY . .
 
-# Отображаем содержимое директории для проверки (можно удалить в финальной версии)
-RUN ls -la
-
-# Собираем сервер:
-# 1. qmake - создает Makefile на основе .pro файла
-# 2. make - компилирует проект
-RUN qmake echoServer.pro && make
+# Удаляем старую директорию build (если есть) и создаем новую
+RUN rm -rf build && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make
 
 # Открываем порт, который будет использовать сервер
-EXPOSE 33333
+EXPOSE 33333 33334
 
 # Указываем команду для запуска сервера при старте контейнера
-CMD ["./echoServer"]
+CMD ["./build/server"]
 
 
 
