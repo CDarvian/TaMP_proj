@@ -46,4 +46,4 @@ CMD ["./build/server"]
 
 # Запуск сервера
 # Docker build -t echo-server .
-# docker run -it -p 33333:33333 echo-server
+# docker run -it -p 33333:33333 -p 33334:33334 qt-server
